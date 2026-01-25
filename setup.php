@@ -246,6 +246,38 @@ try {
     PRIMARY KEY (`verification_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 echo "Created 'verification' table.<br>";
+
+
+// 16. Activity Log table
+$pdo->exec("CREATE TABLE IF NOT EXISTS `activity_log` (
+    `log_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `event_type` VARCHAR(100) NOT NULL,
+    `user_id` INT(11) DEFAULT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`log_id`),
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `activity_log_ibfk_1`
+        FOREIGN KEY (`user_id`) REFERENCES `customer` (`customer_id`)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+echo \"Created 'activity_log' table.<br>\";
+
+// 17. API Key / Rate Limit table
+$pdo->exec("CREATE TABLE IF NOT EXISTS `api_key` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `api_key` TEXT NOT NULL,
+    `no_of_use` INT(11) NOT NULL,
+    `max_use` INT(11) NOT NULL,
+    `created_at` DATE NOT NULL,
+    `is_active` INT(11) NOT NULL DEFAULT 1,
+    `bucket_tokens` FLOAT DEFAULT 20,
+    `last_refill_time` INT(11) DEFAULT 0,
+    `window_requests` INT(11) DEFAULT 0,
+    `last_window_reset` INT(11) DEFAULT 0,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+echo \"Created 'api_key' table.<br>\";
+
     // Insert sample data
     
     // Insert brands
