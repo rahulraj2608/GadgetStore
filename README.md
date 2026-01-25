@@ -43,11 +43,28 @@ A full-stack **E-Commerce Platform** featuring a robust **Admin Panel**, secure 
 ---
 
 ## 🔑 API Key Management
-- Admin-generated API keys
-- API keys stored **hashed using SHA-256**
-- Token bucket + sliding window rate limiting
-- Usage tracking and maximum usage enforcement
-- Enable / disable API keys
+### Overview
+The API allows access to product data while enforcing **3 layers of security**:
+1. **Throttling (Tier 1)** – Token bucket for 20-60 req/min
+2. **Rate Limiting (Tier 2)** – Max 60 req/min
+3. **IP Ban (Tier 3)** – Permanent ban for >120 req/min
+
+### Workflow
+- **Step 0:** Check if IP is blacklisted
+- **Step 1:** Validate API key (hashed) and active status
+- **Step 2:** Track requests in a per-minute window
+- **Step 3:** Apply token bucket throttling
+- **Step 4:** Persist request and token stats
+- **Step 5:** Fetch paginated product data with joins on brand, category, and supplier
+- **Step 6:** Log significant events using `write_log()`
+- **Step 7:** Handle errors with proper HTTP codes
+
+### Security Considerations
+- Prepared statements prevent SQL injection
+- SHA-256 hashing for API keys
+- Tiered approach prevents abuse and ensures fair usage
+- Database logging ensures traceability
+
 
 ---
 
