@@ -88,6 +88,20 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <i class="bi bi-shop me-2"></i> View Store
                 </a>
             </li>
+             <!-- Api keys -->
+               <li class="nav-item">
+                <a class="nav-link" href="api-keys.php" target="_blank">
+                    <i class="bi bi-shop me-2"></i> API keys
+                </a>
+            </li>
+                     <!-- Logs -->
+                     <li class="nav-item">
+                <a class="nav-link" href="logs.php" target="_blank">
+                    <i class="bi bi-shop me-2"></i> Logs
+                </a>
+            </li>
+            
+            
             
             <!-- Logout -->
             <li class="nav-item mt-4">

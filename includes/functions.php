@@ -201,4 +201,19 @@ function addToCart($pdo, $customer_id, $product_id, $quantity = 1) {
         return false;
     }
 }
+
+function write_log($pdo, $event, $userId = null) {
+    try {
+        $sql = "INSERT INTO activity_logs (event_type, user_id) VALUES (:event, :user_id)";
+        $stmt = $pdo->prepare($sql);
+        
+        $stmt->execute([
+            ':event'   => $event,
+            ':user_id' => $userId
+        ]);
+    } catch (PDOException $e) {
+        // If the DB fails, write to the server's local error log instead
+        error_log("Database Logging Failed: " . $e->getMessage());
+    }
+}
 ?>
